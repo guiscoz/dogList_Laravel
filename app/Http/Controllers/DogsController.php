@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\DogsRequest;
 use App\Models\Dog;
+use Illuminate\Support\Facades\DB;
+use Exception;
 use File;
 
 class DogsController extends Controller
@@ -14,20 +17,31 @@ class DogsController extends Controller
         return Dog::where('is_public', 1)->paginate(20);
     }
 
-    public function dog_list_store(Request $request)
+    public function dog_list_store(DogsRequest $request)
     {
-        // dd($request->img_path);
-        $dogData = $request->all();
-        $dogImage = $request->img_path;
+        try {
+            DB::beginTransaction();
 
-        if(isset($request->img_path) && $request->img_path->isValid()) {
-            $img_path = $request->img_path->store('images', 'public');
-            $dogData['img_path'] = $img_path;
-        } else {
-            $dogData['img_path'] = null;
+            $dogData = $request->all();
+
+            if(isset($request->img_path) && $request->img_path->isValid()) {
+                $imageFile = $request->img_path;
+                $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                $imageFile->move(public_path('storage/images/'), $imageName);
+                $dogData['img_path'] = 'images/' . $imageName;
+            } else {
+                $dogData['img_path'] = null;
+            }
+
+            Dog::create($dogData);
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->withErrors(
+                $th->getMessage()
+            );
         }
-
-        Dog::create($dogData);
     }
 
     public function dog_list_show($id)
@@ -35,7 +49,7 @@ class DogsController extends Controller
         return Dog::findOrFail($id);
     }
 
-    public function dog_list_update(Request $request, $id)
+    public function dog_list_update(DogsRequest $request, $id)
     {
         $dog = Dog::findOrFail($id);
         $dog->update($request->all());

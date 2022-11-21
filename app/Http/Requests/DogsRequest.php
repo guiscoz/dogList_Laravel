@@ -18,7 +18,7 @@ class DogsRequest extends FormRequest
         $name = ['required', 'min:3', 'max:30'];
         $breed = ['required', 'min:3', 'max:30'];
         $gender = ['required'];
-        $file_path = ['mimes:jpg,png,jpeg', 'nullable'];
+        $img_path = ['mimes:jpg,png,jpeg', 'nullable'];
 
         return [
             'name' => $name,
@@ -38,8 +38,8 @@ class DogsRequest extends FormRequest
             'breed.min' => 'O campo "Raça do cachorro:" precisa ter no mínimo 3 caracteres.',
             'breed.max' => 'O campo "Raça do cachorro:" pode ter no máximo 20 caracteres.',
             'gender.required' => 'O campo "Sexo do cachorro:" é obrigatório.',
-            'file_path.mimes' => 'A foto deve estar no formato jpg, png ou jpeg',
-            'file_path.max' => 'A foto não pode ter mais de 2mb'
+            'img_path.mimes' => 'A foto deve estar no formato jpg, png ou jpeg',
+            'img_path.max' => 'A foto não pode ter mais de 2mb'
         ];
     }
 }
