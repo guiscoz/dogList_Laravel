@@ -9,6 +9,7 @@ use App\Models\Dog;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use File;
+use Auth;
 
 class DogsController extends Controller
 {
@@ -21,19 +22,30 @@ class DogsController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            $dogData = $request->all();
+            $user = auth()->user();
 
             if(isset($request->img_path) && $request->img_path->isValid()) {
                 $imageFile = $request->img_path;
                 $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
                 $imageFile->move(public_path('storage/images/'), $imageName);
-                $dogData['img_path'] = 'images/' . $imageName;
+                $dogImage = 'images/' . $imageName;
             } else {
-                $dogData['img_path'] = null;
+                $dogImage = null;
             }
 
-            Dog::create($dogData);
+            $newDog = [
+                'name' => $request->name,
+                'breed' => $request->breed,
+                'gender' => $request->gender,
+                'is_public' => $request->is_public,
+                'img_path' => $dogImage,
+                'user_id' => $user->id
+            ];
+
+            if (!$newDog != Dog::create($newDog)) {
+                throw new Exception("Não foi possível adicionar um novo cachorro.");
+            }
+            // Dog::create($newDog);
             DB::commit();
 
         } catch (\Throwable $th) {
