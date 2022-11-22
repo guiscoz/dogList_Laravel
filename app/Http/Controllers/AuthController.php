@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -51,11 +53,16 @@ class AuthController extends Controller
         $token = $user->createToken($user->name.'_login_token')->plainTextToken;
 
         $response = [
-            'user' => $user,
             'token' => $token
         ];
 
         return response($response, 201);
+    }
+
+    public function get_user() {
+        $user = auth()->user();
+
+        return response($user, 201);
     }
 
     public function logout()
