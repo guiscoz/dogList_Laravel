@@ -8,7 +8,6 @@ use App\Http\Requests\DogsRequest;
 use App\Models\Dog;
 use Illuminate\Support\Facades\DB;
 use Exception;
-use File;
 use Auth;
 
 class DogsController extends Controller
@@ -45,14 +44,15 @@ class DogsController extends Controller
             if (!$newDog != Dog::create($newDog)) {
                 throw new Exception("Não foi possível adicionar um novo cachorro.");
             }
-            // Dog::create($newDog);
+
             DB::commit();
 
         } catch (\Throwable $th) {
             DB::rollback();
-            return back()->withErrors(
-                $th->getMessage()
-            );
+            // return back()->withErrors(
+            //     $th->getMessage()
+            // );
+            return $th->getMessage();
         }
     }
 
