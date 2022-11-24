@@ -14,6 +14,7 @@ class Dog extends Model
         'breed',
         'gender',
         'is_public',
-        'img_path'
+        'img_path',
+        'user_id'
     ];
 }

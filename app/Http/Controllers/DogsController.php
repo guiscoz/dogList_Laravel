@@ -26,8 +26,8 @@ class DogsController extends Controller
             if(isset($request->img_path) && $request->img_path->isValid()) {
                 $imageFile = $request->img_path;
                 $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
-                $imageFile->move(public_path('storage/images/'), $imageName);
-                $dogImage = 'images/' . $imageName;
+                $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
+                $dogImage = 'images/' . $user->id . '/'. $imageName;
             } else {
                 $dogImage = null;
             }
@@ -41,7 +41,7 @@ class DogsController extends Controller
                 'user_id' => $user->id
             ];
 
-            if (!$newDog != Dog::create($newDog)) {
+            if (!$newDog = Dog::create($newDog)) {
                 throw new Exception("Não foi possível adicionar um novo cachorro.");
             }
 
@@ -54,11 +54,6 @@ class DogsController extends Controller
             // );
             return $th->getMessage();
         }
-    }
-
-    public function dog_list_show($id)
-    {
-        return Dog::findOrFail($id);
     }
 
     public function dog_list_update(DogsRequest $request, $id)

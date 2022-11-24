@@ -4,8 +4,6 @@ use App\Http\Controllers\DogsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dog_list', [DogsController::class, 'dog_list'])->name('dog_list');
-Route::get('/dog_list/show/{id}', [DogsController::class, 'dog_list_show'])->name('dog_list_show');
-
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
