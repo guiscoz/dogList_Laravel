@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\User;
+use App\Models\Dog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -61,8 +62,13 @@ class AuthController extends Controller
 
     public function get_user() {
         $user = auth()->user();
+        $dogs = Dog::where('user_id', $user->id)->paginate(20);
 
-        return response($user, 201);
+        // return response($user, 201);
+        return response()->json([
+            'user' => $user,
+            'dogs' => $dogs
+        ]);
     }
 
     public function logout()
