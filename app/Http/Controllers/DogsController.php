@@ -64,7 +64,13 @@ class DogsController extends Controller
 
     public function dog_list_destroy($id)
     {
-        $dog = Dog::findOrFail($id);
+        $dog = Dog::where('id', $id)->first();
+
+        if(isset($dog->img_path)) {
+            $imageFile = 'storage/' . $dog->img_path;
+            unlink(public_path($imageFile));
+        }
+
         $dog->delete();
     }
 }
