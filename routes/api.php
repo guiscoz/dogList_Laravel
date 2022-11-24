@@ -13,5 +13,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     Route::post('/dog_list/store', [DogsController::class, 'dog_list_store'])->name('dog_list_store');
     Route::put('/dog_list/update/{id}', [DogsController::class, 'dog_list_update'])->name('dog_list_update');
+    Route::get('/dog_list/current_dog/{id}', [DogsController::class, 'current_dog'])->name('current_dog');
     Route::delete('/dog_list/delete/{id}', [DogsController::class, 'dog_list_destroy'])->name('dog_list_destroy');
 });

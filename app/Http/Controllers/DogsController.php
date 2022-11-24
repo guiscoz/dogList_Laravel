@@ -49,22 +49,70 @@ class DogsController extends Controller
 
         } catch (\Throwable $th) {
             DB::rollback();
-            // return back()->withErrors(
-            //     $th->getMessage()
-            // );
             return $th->getMessage();
+        }
+    }
+
+    public function current_dog($id)
+    {
+        $user = auth()->user();
+        $dog = Dog::where('id', $id)->first();
+
+        if ($user->id == $dog->user_id) {
+            return $dog;
+        } else {
+            throw new Exception("Este cachorro pertence a outro usuário.");
         }
     }
 
     public function dog_list_update(DogsRequest $request, $id)
     {
-        $dog = Dog::findOrFail($id);
-        $dog->update($request->all());
+        dd($request->all());
+        try {
+            DB::beginTransaction();
+            $dog = Dog::where('id', $id)->first();
+            $user = auth()->user();
+
+            if ($user->id != $dog->user_id) {
+                throw new Exception("Este cachorro pertence a outro usuário.");
+            }
+
+            if(isset($request->img_path)) {
+                if(($request->img_path != $dog->img_path) && $request->img_path->isValid()) {
+                    $imageFile = $request->img_path;
+                    $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                    $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
+                    $dogImage = 'images/' . $user->id . '/'. $imageName;
+                    unlink(public_path('storage/' . $dogImage));
+                }
+            } else {
+                $dogImage = $dog->img_path;
+            }
+
+            $newDog = [
+                'name' => $request->name,
+                'breed' => $request->breed,
+                'gender' => $request->gender,
+                'is_public' => $request->is_public ? 1 : 0,
+                'img_path' => $dogImage
+            ];
+
+            $dog->update($newDog);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th->getMessage();
+        }
     }
 
     public function dog_list_destroy($id)
     {
         $dog = Dog::where('id', $id)->first();
+        $user = auth()->user();
+
+        if ($user->id != $dog->user_id) {
+            throw new Exception("Este cachorro pertence a outro usuário.");
+        }
 
         if(isset($dog->img_path)) {
             $imageFile = 'storage/' . $dog->img_path;
