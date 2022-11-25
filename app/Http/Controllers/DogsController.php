@@ -77,14 +77,12 @@ class DogsController extends Controller
                 throw new Exception("Este cachorro pertence a outro usuário.");
             }
 
-            if(isset($request->img_path)) {
-                if(($request->img_path != $dog->img_path) && $request->img_path->isValid()) {
-                    $imageFile = $request->img_path;
-                    $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
-                    $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
-                    $dogImage = 'images/' . $user->id . '/'. $imageName;
-                    unlink(public_path('storage/' . $dogImage));
-                }
+            if(isset($request->img_path) && $request->img_path->isValid()) {
+                $imageFile = $request->img_path;
+                $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
+                $dogImage = 'images/' . $user->id . '/'. $imageName;
+                unlink(public_path('storage/' . $dogImage));
             } else {
                 $dogImage = $dog->img_path;
             }
