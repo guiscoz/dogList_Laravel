@@ -14,7 +14,7 @@ class DogsController extends Controller
 {
     public function dog_list()
     {
-        return Dog::where('is_public', 1)->paginate(20);
+        return Dog::where('is_public', 1)->paginate(1);
     }
 
     public function dog_list_store(DogsRequest $request)
