@@ -14,7 +14,7 @@ class DogsController extends Controller
 {
     public function dog_list()
     {
-        return Dog::where('is_public', 1)->paginate(1);
+        return Dog::where('is_public', 1)->paginate(5);
     }
 
     public function dog_list_store(DogsRequest $request)
@@ -67,7 +67,7 @@ class DogsController extends Controller
 
     public function dog_list_update(DogsRequest $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
         try {
             DB::beginTransaction();
             $dog = Dog::where('id', $id)->first();
