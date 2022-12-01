@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DogsRequest;
 use App\Models\Dog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 use Auth;
 
@@ -25,7 +27,9 @@ class DogsController extends Controller
 
             if(isset($request->img_path) && $request->img_path->isValid()) {
                 $imageFile = $request->img_path;
-                $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                $imageSlug = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                $imageFormat = explode('.', $imageSlug);
+                $imageName = Str::uuid() . '.' . end($imageFormat);
                 $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
                 $dogImage = 'images/' . $user->id . '/'. $imageName;
             } else {
@@ -67,7 +71,6 @@ class DogsController extends Controller
 
     public function dog_list_update(DogsRequest $request, $id)
     {
-        // dd($request->all());
         try {
             DB::beginTransaction();
             $dog = Dog::where('id', $id)->first();
@@ -78,11 +81,16 @@ class DogsController extends Controller
             }
 
             if(isset($request->img_path) && $request->img_path->isValid()) {
+                if(isset($dog->img_path)) {
+                    unlink(public_path('storage/' . $dog->img_path));
+                }
+
                 $imageFile = $request->img_path;
-                $imageName = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
-                $imageFile->move(public_path('storage/images/' . $user->id . '/'), $imageName);
+                $imageSlug = trim(str_replace(' ', '_', $imageFile->getClientOriginalName()));
+                $imageFormat = explode('.', $imageSlug);
+                $imageName = Str::uuid() . '.' . end($imageFormat);
+                $imageFile->move(public_path('storage/images/' . $user->id), $imageName);
                 $dogImage = 'images/' . $user->id . '/'. $imageName;
-                unlink(public_path('storage/' . $dogImage));
             } else {
                 $dogImage = $dog->img_path;
             }
