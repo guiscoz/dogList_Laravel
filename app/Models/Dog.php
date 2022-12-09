@@ -17,4 +17,9 @@ class Dog extends Model
         'img_path',
         'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
