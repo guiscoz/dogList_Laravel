@@ -127,4 +127,23 @@ class DogsController extends Controller
 
         $dog->delete();
     }
+
+    public function delete_image($id) {
+        $dog = Dog::where('id', $id)->first();
+        $user = auth()->user();
+
+        if ($user->id != $dog->user_id) {
+            throw new Exception("Este cachorro pertence a outro usuário.");
+        }
+
+        if(isset($dog->img_path)) {
+            $imageFile = 'storage/' . $dog->img_path;
+            unlink(public_path($imageFile));
+        }
+
+        $noImage = [
+            'img_path' => null
+        ];
+        $dog->update($noImage);
+    }
 }
