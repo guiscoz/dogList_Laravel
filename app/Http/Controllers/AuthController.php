@@ -64,7 +64,6 @@ class AuthController extends Controller
         $user = auth()->user();
         $dogs = Dog::where('user_id', $user->id)->paginate(5);
 
-        // return response($user, 201);
         return response()->json([
             'user' => $user,
             'dogs' => $dogs
