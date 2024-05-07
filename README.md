@@ -34,7 +34,7 @@ Aqui será listado todas as rotas contendo as funções de requisição de api d
 ## Autenticação:
 
 
-[POST - retorna um JWT] Registering a user with Postman (http://localhost:8080/api/register):
+[POST - retorna um JWT] Cadastro de usuário (http://localhost:8080/api/register):
 ```
 name:
 email:
