@@ -52,4 +52,4 @@ Foram criados separados para cada tipo de teste. Um de feature para autenticaç�
 
 ## 03/12/2024
 
-Foi adicionado um arquivo de changelog para registrar as atualizações do projeto.
+Foi adicionado um arquivo de changelog para registrar as atualizações do projeto junto com uma nova branch para trabalhar nas funções de testes. Os testes de features estão prontos, falta os testes unitários.
