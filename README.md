@@ -88,7 +88,7 @@ Essas rotas não precisam de formulário:
 ```
 
 
-# Testes unitários
+<!-- # Testes automatizados
 
 
 Há dois arquivos contendo as funções de testes unitários. Um deles é para testar a autenticação de usuários e outro para testar as função de cadastro de cachorro. É possível executa-las com os seguintes comandos:
@@ -96,4 +96,4 @@ Há dois arquivos contendo as funções de testes unitários. Um deles é para t
 Todas as funções:   php artisan test
 Autenticação:       php artisan test tests/Unit/AuthControllerTest.php
 Cadastro de cães:   php artisan test tests/Unit/DogsControllerTest.php
-```
+``` -->
