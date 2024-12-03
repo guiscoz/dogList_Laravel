@@ -88,12 +88,12 @@ Essas rotas não precisam de formulário:
 ```
 
 
-<!-- # Testes automatizados
+# Testes automatizados
 
 
-Há dois arquivos contendo as funções de testes unitários. Um deles é para testar a autenticação de usuários e outro para testar as função de cadastro de cachorro. É possível executa-las com os seguintes comandos:
+Há dois arquivos contendo as funções de testes unitários. Um deles é para testar a autenticação de usuários e outro para testar as função de cadastro de cachorro. No momento, somente os testes de feature estão prontos. É possível executa-los com os seguintes comandos:
 ```
 Todas as funções:   php artisan test
-Autenticação:       php artisan test tests/Unit/AuthControllerTest.php
-Cadastro de cães:   php artisan test tests/Unit/DogsControllerTest.php
-``` -->
+Autenticação:       php artisan test tests/Feature/AuthControllerFeatureTest.php
+Cadastro de cães:   php artisan test tests/Feature/DogsControllerFeatureTest.php
+```
