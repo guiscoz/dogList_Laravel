@@ -53,3 +53,7 @@ Foram criados separados para cada tipo de teste. Um de feature para autenticaç�
 ## 03/12/2024
 
 Foi adicionado um arquivo de changelog para registrar as atualizações do projeto e os testes de features foram finalizados. Falta criar os testes unitários.
+
+## 09/12/2024
+
+Foi instalado o pacote l5-swagger no projeto para documentar a API e testar cada rota através do Swagger. Para utilizar este recurso foi necessário criar mais uma variável de ambiente chamada 'L5_SWAGGER_CONST_HOST' no arquivo '.env'. Depois houve alterações na url de algumas rotas por uma questão estética. Essas atividades foram registradas em uma nova branch chamada 'swagger'. No momento só faltar fazer as rotas com JWT funcionarem neste pacote.

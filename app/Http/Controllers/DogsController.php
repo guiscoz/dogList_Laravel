@@ -8,17 +8,54 @@ use App\Http\Requests\DogsRequest;
 use App\Models\Dog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Exception;
-use Auth;
 
+/**
+ * @OA\Tag(
+ *     name="Cachorros",
+ *     description="Gerenciamento de cachorros"
+ * )
+*/
 class DogsController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/dogs",
+     *     tags={"Cachorros"},
+     *     summary="Listar todos os cachorros públicos",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de cachorros retornada com sucesso"
+     *     )
+     * )
+    */
     public function dog_list()
     {
         return Dog::where('is_public', 1)->paginate(5);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/dogs/store",
+     *     tags={"Cachorros"},
+     *     summary="Adicionar um novo cachorro",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "breed", "gender", "is_public"},
+     *             @OA\Property(property="name", type="string", example="Lupi"),
+     *             @OA\Property(property="breed", type="string", example="Golden Retriever"),
+     *             @OA\Property(property="gender", type="string", example="M"),
+     *             @OA\Property(property="is_public", type="boolean", example=true),
+     *             @OA\Property(property="img_path", type="string", format="binary", example="dog.jpg")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Cachorro adicionado com sucesso"
+     *     )
+     * )
+    */
     public function dog_list_store(DogsRequest $request)
     {
         try {
@@ -57,6 +94,42 @@ class DogsController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/dogs/{id}",
+     *     tags={"Cachorros"},
+     *     summary="Obter detalhes de um cachorro específico",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cachorro",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalhes do cachorro retornados com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Buddy"),
+     *             @OA\Property(property="breed", type="string", example="Golden Retriever"),
+     *             @OA\Property(property="gender", type="string", example="Male"),
+     *             @OA\Property(property="is_public", type="boolean", example=true),
+     *             @OA\Property(property="img_path", type="string", example="images/user/1/dog.jpg"),
+     *             @OA\Property(property="user_id", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acesso negado: o cachorro pertence a outro usuário"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cachorro não encontrado"
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+    */
     public function current_dog($id)
     {
         $user = auth()->user();
@@ -69,6 +142,44 @@ class DogsController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/dogs/update/{id}",
+     *     tags={"Cachorros"},
+     *     summary="Atualizar informações de um cachorro",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cachorro",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "breed", "gender", "is_public"},
+     *             @OA\Property(property="name", type="string", example="Buddy"),
+     *             @OA\Property(property="breed", type="string", example="Golden Retriever"),
+     *             @OA\Property(property="gender", type="string", example="Male"),
+     *             @OA\Property(property="is_public", type="boolean", example=true),
+     *             @OA\Property(property="img_path", type="string", format="binary", example="dog.jpg")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cachorro atualizado com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acesso negado: o cachorro pertence a outro usuário"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cachorro não encontrado"
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+    */
     public function dog_list_update(DogsRequest $request, $id)
     {
         try {
@@ -111,6 +222,33 @@ class DogsController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/dogs/delete/{id}",
+     *     tags={"Cachorros"},
+     *     summary="Excluir um cachorro",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cachorro",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cachorro excluído com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acesso negado: o cachorro pertence a outro usuário"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cachorro não encontrado"
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+    */
     public function dog_list_destroy($id)
     {
         $dog = Dog::where('id', $id)->first();
@@ -128,6 +266,33 @@ class DogsController extends Controller
         $dog->delete();
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/dogs/delete_image/{id}",
+     *     tags={"Cachorros"},
+     *     summary="Excluir a imagem de um cachorro",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cachorro",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagem excluída com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Acesso negado: o cachorro pertence a outro usuário"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cachorro não encontrado"
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+    */
     public function delete_image($id) {
         $dog = Dog::where('id', $id)->first();
         $user = auth()->user();

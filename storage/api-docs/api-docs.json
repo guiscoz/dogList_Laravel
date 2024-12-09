@@ -1,0 +1,436 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dog List API",
+        "description": "API para gerenciamento de usuários e cachorros",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Registrar um novo usuário",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário registrado com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Fazer login de um usuário",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login realizado com sucesso"
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Obter informações do usuário logado",
+                "operationId": "2d804e6dc8f3ba8ea6ce9d4c80b704d2",
+                "responses": {
+                    "200": {
+                        "description": "Informações do usuário retornadas com sucesso"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Fazer logout do usuário logado",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Logout efetuado com sucesso"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/dogs": {
+            "get": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Listar todos os cachorros públicos",
+                "operationId": "4c5da6ed14f9a838b396b75a2c10e09b",
+                "responses": {
+                    "200": {
+                        "description": "Lista de cachorros retornada com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/dogs/store": {
+            "post": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Adicionar um novo cachorro",
+                "operationId": "f7369c128c2be35a8f9cc293310712da",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "breed",
+                                    "gender",
+                                    "is_public"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Buddy"
+                                    },
+                                    "breed": {
+                                        "type": "string",
+                                        "example": "Golden Retriever"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "Male"
+                                    },
+                                    "is_public": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "img_path": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "dog.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cachorro adicionado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/dogs/{id}": {
+            "get": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Obter detalhes de um cachorro específico",
+                "operationId": "a3b9c4633f920a8f98b053dfbd9997cd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cachorro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do cachorro retornados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Buddy"
+                                        },
+                                        "breed": {
+                                            "type": "string",
+                                            "example": "Golden Retriever"
+                                        },
+                                        "gender": {
+                                            "type": "string",
+                                            "example": "Male"
+                                        },
+                                        "is_public": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "img_path": {
+                                            "type": "string",
+                                            "example": "images/user/1/dog.jpg"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado: o cachorro pertence a outro usuário"
+                    },
+                    "404": {
+                        "description": "Cachorro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/dogs/update/{id}": {
+            "put": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Atualizar informações de um cachorro",
+                "operationId": "9306c8f624f9d8e5b47eb5481a1966f8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cachorro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "breed",
+                                    "gender",
+                                    "is_public"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Buddy"
+                                    },
+                                    "breed": {
+                                        "type": "string",
+                                        "example": "Golden Retriever"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "Male"
+                                    },
+                                    "is_public": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "img_path": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "dog.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cachorro atualizado com sucesso"
+                    },
+                    "403": {
+                        "description": "Acesso negado: o cachorro pertence a outro usuário"
+                    },
+                    "404": {
+                        "description": "Cachorro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/dogs/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Excluir um cachorro",
+                "operationId": "736db1e592a9acae7673ad9f3f2b11d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cachorro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cachorro excluído com sucesso"
+                    },
+                    "403": {
+                        "description": "Acesso negado: o cachorro pertence a outro usuário"
+                    },
+                    "404": {
+                        "description": "Cachorro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/dogs/delete_image/{id}": {
+            "delete": {
+                "tags": [
+                    "Cachorros"
+                ],
+                "summary": "Excluir a imagem de um cachorro",
+                "operationId": "5247aa9eda257c58eb0522d98fc1963b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cachorro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Imagem excluída com sucesso"
+                    },
+                    "403": {
+                        "description": "Acesso negado: o cachorro pertence a outro usuário"
+                    },
+                    "404": {
+                        "description": "Cachorro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Gerenciamento de usuários"
+        },
+        {
+            "name": "Cachorros",
+            "description": "Gerenciamento de cachorros"
+        }
+    ]
+}

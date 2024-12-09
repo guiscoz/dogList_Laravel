@@ -97,3 +97,16 @@ Todas as funções:   php artisan test
 Autenticação:       php artisan test tests/Feature/AuthControllerFeatureTest.php
 Cadastro de cães:   php artisan test tests/Feature/DogsControllerFeatureTest.php
 ```
+
+
+
+# Swagger
+
+O Swagger é um recurso que documenta e auxilia nos testes da API, possibilitando testar manuamente cada rota em uma única página. Sua URL será definida pela variável L5_SWAGGER_CONST_HOST do arquivo '.env':
+```
+# Laragon
+# L5_SWAGGER_CONST_HOST=http://doglist_laravel.test:8080
+# Artisan Server
+# L5_SWAGGER_CONST_HOST=http://127.0.0.1:8000
+``` 
+Depois basta digitar 'api/documentation' no final da URL para acessar o Swagger.
