@@ -107,18 +107,18 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
             }
         },
         "/api/logout": {
-            "post": {
+            "get": {
                 "tags": [
                     "Autenticação"
                 ],
                 "summary": "Fazer logout do usuário logado",
-                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "operationId": "3f19b742e4ead13f81ba0d6c0d46ac1b",
                 "responses": {
                     "200": {
                         "description": "Logout efetuado com sucesso"
@@ -126,7 +126,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
             }
@@ -150,12 +150,12 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Adicionar um novo cachorro",
+                "summary": "Adicionar um novo cachorro [requer JWT]",
                 "operationId": "f7369c128c2be35a8f9cc293310712da",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "name",
@@ -166,7 +166,7 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Buddy"
+                                        "example": "Lupi"
                                     },
                                     "breed": {
                                         "type": "string",
@@ -174,16 +174,23 @@
                                     },
                                     "gender": {
                                         "type": "string",
-                                        "example": "Male"
+                                        "enum": [
+                                            "M",
+                                            "F"
+                                        ],
+                                        "example": "M"
                                     },
                                     "is_public": {
-                                        "type": "boolean",
-                                        "example": true
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
                                     },
                                     "img_path": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "example": "dog.jpg"
+                                        "description": "Imagem do cachorro",
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object"
@@ -195,16 +202,21 @@
                     "201": {
                         "description": "Cachorro adicionado com sucesso"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
-        "/api/dogs/{id}": {
+        "/api/dogs/current_dog/{id}": {
             "get": {
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Obter detalhes de um cachorro específico",
-                "operationId": "a3b9c4633f920a8f98b053dfbd9997cd",
+                "summary": "Obter detalhes de um cachorro específico [requer JWT]",
+                "operationId": "2fef374324c47c9385175b6d83dfc572",
                 "parameters": [
                     {
                         "name": "id",
@@ -238,7 +250,7 @@
                                         },
                                         "gender": {
                                             "type": "string",
-                                            "example": "Male"
+                                            "example": "M"
                                         },
                                         "is_public": {
                                             "type": "boolean",
@@ -267,7 +279,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
             }
@@ -277,7 +289,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Atualizar informações de um cachorro",
+                "summary": "Atualizar informações de um cachorro [requer JWT]",
                 "operationId": "9306c8f624f9d8e5b47eb5481a1966f8",
                 "parameters": [
                     {
@@ -294,7 +306,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "name",
@@ -313,16 +325,23 @@
                                     },
                                     "gender": {
                                         "type": "string",
-                                        "example": "Male"
+                                        "enum": [
+                                            "M",
+                                            "F"
+                                        ],
+                                        "example": "M"
                                     },
                                     "is_public": {
-                                        "type": "boolean",
-                                        "example": true
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
                                     },
                                     "img_path": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "example": "dog.jpg"
+                                        "description": "Nova imagem do cachorro",
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object"
@@ -333,17 +352,11 @@
                 "responses": {
                     "200": {
                         "description": "Cachorro atualizado com sucesso"
-                    },
-                    "403": {
-                        "description": "Acesso negado: o cachorro pertence a outro usuário"
-                    },
-                    "404": {
-                        "description": "Cachorro não encontrado"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
             }
@@ -353,7 +366,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Excluir um cachorro",
+                "summary": "Excluir um cachorro [requer JWT]",
                 "operationId": "736db1e592a9acae7673ad9f3f2b11d3",
                 "parameters": [
                     {
@@ -380,18 +393,18 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
             }
         },
         "/api/dogs/delete_image/{id}": {
-            "delete": {
+            "put": {
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Excluir a imagem de um cachorro",
-                "operationId": "5247aa9eda257c58eb0522d98fc1963b",
+                "summary": "Excluir a imagem de um cachorro [requer JWT]",
+                "operationId": "d7aed838f6c2fb54ec9c60b8197b767b",
                 "parameters": [
                     {
                         "name": "id",
@@ -417,9 +430,19 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearer": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "type": "http",
+                "description": "Insira o token JWT no formato: Bearer {seu_token}",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },
@@ -431,6 +454,15 @@
         {
             "name": "Cachorros",
             "description": "Gerenciamento de cachorros"
+        }
+    ],
+    "security": [
+        {
+            "bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
         }
     ]
 }

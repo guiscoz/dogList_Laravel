@@ -19,7 +19,7 @@ class DogsControllerFeatureTest extends TestCase
         Dog::factory()->count(3)->create(['is_public' => true]);
         Dog::factory()->create(['is_public' => false]);
 
-        $response = $this->get('/api/dog_list');
+        $response = $this->get('/api/dogs');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'current_page',
@@ -63,7 +63,7 @@ class DogsControllerFeatureTest extends TestCase
 
 
         $this->actingAs($user);
-        $response = $this->post('/api/dog_list/store', $data);
+        $response = $this->post('/api/dogs/store', $data);
         $response->assertStatus(200);
 
 
@@ -82,7 +82,7 @@ class DogsControllerFeatureTest extends TestCase
         $this->actingAs($user);
         $dog = Dog::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->get('/api/dog_list/current_dog/' . $dog->id);
+        $response = $this->get('/api/dogs/current_dog/' . $dog->id);
         $response->assertStatus(200);
         $response->assertJson([
             'id' => $dog->id,
@@ -105,7 +105,7 @@ class DogsControllerFeatureTest extends TestCase
             'is_public' => false,
         ];
 
-        $response = $this->put('/api/dog_list/update/' . $dog->id, $updatedData);
+        $response = $this->put('/api/dogs/update/' . $dog->id, $updatedData);
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('dogs', [
@@ -123,7 +123,7 @@ class DogsControllerFeatureTest extends TestCase
         $this->actingAs($user);
         $dog = Dog::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->delete('/api/dog_list/delete/' . $dog->id);
+        $response = $this->delete('/api/dogs/delete/' . $dog->id);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('dogs', ['id' => $dog->id]);
     }
@@ -134,7 +134,7 @@ class DogsControllerFeatureTest extends TestCase
         $this->actingAs($user);
         $dog = Dog::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->put('/api/dog_list/delete_image/' . $dog->id);
+        $response = $this->put('/api/dogs/delete_image/' . $dog->id);
         $response->assertStatus(200);
         $this->assertDatabaseHas('dogs', [
             'id' => $dog->id,

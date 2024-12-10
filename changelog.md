@@ -57,3 +57,7 @@ Foi adicionado um arquivo de changelog para registrar as atualizações do proje
 ## 09/12/2024
 
 Foi instalado o pacote l5-swagger no projeto para documentar a API e testar cada rota através do Swagger. Para utilizar este recurso foi necessário criar mais uma variável de ambiente chamada 'L5_SWAGGER_CONST_HOST' no arquivo '.env'. Depois houve alterações na url de algumas rotas por uma questão estética. Essas atividades foram registradas em uma nova branch chamada 'swagger'. No momento só faltar fazer as rotas com JWT funcionarem neste pacote.
+
+## 10/12/2024
+
+Agora é possível testar os métodos que requerem um JWT e também da para enviar arquivos na função de cadastrar um novo cachorro. O único problema no momento é que o mesmo não está acontecendo com o método de editar os dados do cachorro.

@@ -51,7 +51,7 @@ password:
 
 Essas rotas não precisam de formulário, mas requerem um JWT:
 ```
-[GET] http://127.0.0.1:8000/api/get_user
+[GET] http://127.0.0.1:8000/api/user
 [GET] http://127.0.0.1:8000/api/logout
 ```
 
@@ -59,7 +59,7 @@ Essas rotas não precisam de formulário, mas requerem um JWT:
 ## Cachorros
 
 
-[POST - requer um JWT] Cadastro de cachorro (http://127.0.0.1:8000/api/dog_list/store):
+[POST - requer um JWT] Cadastro de cachorro (http://127.0.0.1:8000/api/dogs/store):
 ```
 name: 
 breed: 
@@ -69,7 +69,7 @@ img_path: [upload de image]
 ```
 
 
-[POST - requer um JWT] Edição de cachorro (http://127.0.0.1:8000/api/dog_list/update/{id}):
+[PUT - requer um JWT] Edição de cachorro (http://127.0.0.1:8000/api/dogs/update/{id}):
 ```
 name: 
 breed: 
@@ -81,10 +81,10 @@ img_path: [upload de image]
 
 Essas rotas não precisam de formulário:
 ```
-[GET - requer JWT] http://127.0.0.1:8000/api/current_dog/{id}
-[DELETE - requer JWT] http://127.0.0.1:8000/api/dog_list/delete/{id}
-[PUT - requer JWT] http://127.0.0.1:8000/api/dog_list/delete_image/{id}
-[GET - não precisa de JWT] http://127.0.0.1:8000/api/dog_list
+[GET - requer JWT] http://127.0.0.1:8000/api/dogs/current_dog/{id}
+[DELETE - requer JWT] http://127.0.0.1:8000/api/dogs/delete/{id}
+[PUT - requer JWT] http://127.0.0.1:8000/api/dogs/delete_image/{id}
+[GET - não precisa de JWT] http://127.0.0.1:8000/api/dogs
 ```
 
 

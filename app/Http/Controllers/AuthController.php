@@ -2,49 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Models\User;
 use App\Models\Dog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- * @OA\Info(
- *     title="Dog List API",
- *     version="1.0.0",
- *     description="API para gerenciamento de usuários e cachorros"
- * )
- * @OA\Tag(
- *     name="Autenticação",
- *     description="Gerenciamento de usuários"
- * )
+* @OA\Info(
+*     title="Dog List API",
+*     version="1.0.0",
+*     description="API para gerenciamento de usuários e cachorros"
+* )
+* @OA\Tag(
+*     name="Autenticação",
+*     description="Gerenciamento de usuários"
+* )
 */
 class AuthController extends Controller
 {
     /**
-     * @OA\Post(
-     *     path="/api/register",
-     *     tags={"Autenticação"},
-     *     summary="Registrar um novo usuário",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", example="john.doe@example.com"),
-     *             @OA\Property(property="password", type="string", example="password123")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Usuário registrado com sucesso"
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Erro de validação"
-     *     )
-     * )
+    *   @OA\Post(
+    *       path="/api/register",
+    *       tags={"Autenticação"},
+    *       summary="Registrar um novo usuário",
+    *       @OA\RequestBody(
+    *           required=true,
+    *           @OA\JsonContent(
+    *               required={"name", "email", "password"},
+    *               @OA\Property(property="name", type="string", example="John Doe"),
+    *               @OA\Property(property="email", type="string", example="john.doe@example.com"),
+    *               @OA\Property(property="password", type="string", example="password123")
+    *           )
+    *       ),
+    *       @OA\Response(
+    *           response=201,
+    *           description="Usuário registrado com sucesso"
+    *       ),
+    *       @OA\Response(
+    *           response=422,
+    *           description="Erro de validação"
+    *       )
+    *   )
     */
     public function register(Request $request)
     {
@@ -71,27 +69,27 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Post(
-     *     path="/api/login",
-     *     tags={"Autenticação"},
-     *     summary="Fazer login de um usuário",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", example="john.doe@example.com"),
-     *             @OA\Property(property="password", type="string", example="password123")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Login realizado com sucesso"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Credenciais inválidas"
-     *     )
-     * )
+    *   @OA\Post(
+    *       path="/api/login",
+    *       tags={"Autenticação"},
+    *       summary="Fazer login de um usuário",
+    *       @OA\RequestBody(
+    *           required=true,
+    *           @OA\JsonContent(
+    *               required={"email", "password"},
+    *               @OA\Property(property="email", type="string", example="john.doe@example.com"),
+    *               @OA\Property(property="password", type="string", example="password123")
+    *           )
+    *       ),
+    *       @OA\Response(
+    *           response=201,
+    *           description="Login realizado com sucesso"
+    *       ),
+    *       @OA\Response(
+    *           response=401,
+    *           description="Credenciais inválidas"
+    *       )
+    *   )
     */
     public function login(Request $request)
     {
@@ -118,16 +116,16 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/user",
-     *     tags={"Autenticação"},
-     *     summary="Obter informações do usuário logado",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Informações do usuário retornadas com sucesso"
-     *     ),
-     *     security={{"sanctum": {}}}
-     * )
+    *   @OA\Get(
+    *       path="/api/user",
+    *       tags={"Autenticação"},
+    *       summary="Obter informações do usuário logado",
+    *       @OA\Response(
+    *         response=200,
+    *         description="Informações do usuário retornadas com sucesso"
+    *       ),
+    *       security={{"bearer": {}}}
+    *   )
     */
     public function get_user() {
         $user = auth()->user();
@@ -140,16 +138,16 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Post(
-     *     path="/api/logout",
-     *     tags={"Autenticação"},
-     *     summary="Fazer logout do usuário logado",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Logout efetuado com sucesso"
-     *     ),
-     *     security={{"sanctum": {}}}
-     * )
+    *   @OA\Get(
+    *       path="/api/logout",
+    *       tags={"Autenticação"},
+    *       summary="Fazer logout do usuário logado",
+    *       @OA\Response(
+    *           response=200,
+    *           description="Logout efetuado com sucesso"
+    *       ),
+    *       security={{"bearer": {}}}
+    *   )
     */
     public function logout()
     {

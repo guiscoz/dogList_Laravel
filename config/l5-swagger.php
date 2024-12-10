@@ -221,14 +221,11 @@ return [
                  * Examples of Securities
                  */
                 [
-                    /*
-                    'oauth2_security_example' => [
-                        'read',
-                        'write'
+                    'bearer' => [ // Unique name of security
+                        'type' => 'http', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                        'scheme' => 'bearer',
+                        "bearerFormat" => "JWT",
                     ],
-
-                    'passport' => []
-                    */
                 ],
             ],
         ],

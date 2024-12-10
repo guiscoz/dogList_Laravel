@@ -115,7 +115,7 @@ class AuthControllerFeatureTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get('/api/get_user');
+        $response = $this->get('/api/user');
 
         $response->assertStatus(200);
 
@@ -135,7 +135,7 @@ class AuthControllerFeatureTest extends TestCase
 
     public function testGetUnauthenticatedUser()
     {
-        $response = $this->get('/api/get_user');
+        $response = $this->get('/api/user');
 
         $response->assertStatus(302);
         $response->assertRedirect(route('login'));
@@ -145,7 +145,7 @@ class AuthControllerFeatureTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->get('/api/get_user');
+        $response = $this->get('/api/user');
 
         $response->assertStatus(200);
         $response->assertJson([
