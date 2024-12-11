@@ -8,14 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
-* @OA\Info(
-*     title="Dog List API",
-*     version="1.0.0",
-*     description="API para gerenciamento de usuários e cachorros"
-* )
 * @OA\Tag(
 *     name="Autenticação",
-*     description="Gerenciamento de usuários"
+*     description="Aqui você seu cadastro, login, logout e carrega dados de seu perfil"
 * )
 */
 class AuthController extends Controller
@@ -24,7 +19,7 @@ class AuthController extends Controller
     *   @OA\Post(
     *       path="/api/register",
     *       tags={"Autenticação"},
-    *       summary="Registrar um novo usuário",
+    *       summary="Faz o cadastro de seu usuário, basta informa seu nome, email e senha.",
     *       @OA\RequestBody(
     *           required=true,
     *           @OA\JsonContent(
@@ -72,7 +67,7 @@ class AuthController extends Controller
     *   @OA\Post(
     *       path="/api/login",
     *       tags={"Autenticação"},
-    *       summary="Fazer login de um usuário",
+    *       summary="Faz login de seu usuário, basta escrever seu email e senha",
     *       @OA\RequestBody(
     *           required=true,
     *           @OA\JsonContent(
@@ -119,7 +114,7 @@ class AuthController extends Controller
     *   @OA\Get(
     *       path="/api/user",
     *       tags={"Autenticação"},
-    *       summary="Obter informações do usuário logado",
+    *       summary="Obtem dados dos usuário logado [requer JWT].",
     *       @OA\Response(
     *         response=200,
     *         description="Informações do usuário retornadas com sucesso"
@@ -141,7 +136,7 @@ class AuthController extends Controller
     *   @OA\Get(
     *       path="/api/logout",
     *       tags={"Autenticação"},
-    *       summary="Fazer logout do usuário logado",
+    *       summary="Faz logout do usuário logado [requer JWT].",
     *       @OA\Response(
     *           response=200,
     *           description="Logout efetuado com sucesso"

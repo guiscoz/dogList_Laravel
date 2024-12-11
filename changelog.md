@@ -61,3 +61,7 @@ Foi instalado o pacote l5-swagger no projeto para documentar a API e testar cada
 ## 10/12/2024
 
 Agora é possível testar os métodos que requerem um JWT e também da para enviar arquivos na função de cadastrar um novo cachorro. O único problema no momento é que o mesmo não está acontecendo com o método de editar os dados do cachorro.
+
+## 11/12/2024
+
+Todos os métodos dos controllers estão funcionando. Depois foi criado o arquivo SwaggerConfig para armazenar as anotações @OA\Info e @OA\SecurityScheme porque elas são globais, ou seja, serão usadas em ambos os controllers. Por fim, houve alterações na descrição dos métodos para orientar melhor o usuário.

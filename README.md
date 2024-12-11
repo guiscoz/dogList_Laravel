@@ -102,7 +102,7 @@ Cadastro de cães:   php artisan test tests/Feature/DogsControllerFeatureTest.ph
 
 # Swagger
 
-O Swagger é um recurso que documenta e auxilia nos testes da API, possibilitando testar manuamente cada rota em uma única página. Sua URL será definida pela variável L5_SWAGGER_CONST_HOST do arquivo '.env':
+O Swagger é um recurso que documenta e auxilia nos testes da API, possibilitando testar manuamente cada rota em uma única página. Foi instaldo o pacote l5-swagger para isso e sua URL será definida pela variável L5_SWAGGER_CONST_HOST do arquivo '.env':
 ```
 # Laragon
 # L5_SWAGGER_CONST_HOST=http://doglist_laravel.test:8080

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\DogsRequest;
 use App\Models\Dog;
 use Illuminate\Support\Facades\DB;
@@ -15,13 +14,6 @@ use Exception;
 *       name="Cachorros",
 *       description="Gerenciamento de cachorros"
 *   )
-*   @OA\SecurityScheme(
-*       securityScheme="bearer",
-*       type="http",
-*       scheme="bearer",
-*       bearerFormat="JWT",
-*       description="Insira o token JWT no formato: Bearer {seu_token}"
-*   )
 */
 class DogsController extends Controller
 {
@@ -29,7 +21,7 @@ class DogsController extends Controller
     *   @OA\Get(
     *       path="/api/dogs",
     *       tags={"Cachorros"},
-    *       summary="Listar todos os cachorros públicos",
+    *       summary="Lista todos os cachorros públicos",
     *       @OA\Response(
     *           response=200,
     *           description="Lista de cachorros retornada com sucesso"
@@ -45,7 +37,7 @@ class DogsController extends Controller
     *   @OA\Post(
     *       path="/api/dogs/store",
     *       tags={"Cachorros"},
-    *       summary="Adicionar um novo cachorro [requer JWT]",
+    *       summary="Adiciona um novo cachorro no banco de dados [requer JWT].",
     *       @OA\RequestBody(
     *           required=true,
     *           content={
@@ -53,11 +45,38 @@ class DogsController extends Controller
     *                   mediaType="multipart/form-data",
     *                   @OA\Schema(
     *                       required={"name", "breed", "gender", "is_public"},
-    *                       @OA\Property(property="name", type="string", example="Lupi"),
-    *                       @OA\Property(property="breed", type="string", example="Golden Retriever"),
-    *                       @OA\Property(property="gender", type="string", enum={"M", "F"}, example="M"),
-    *                       @OA\Property(property="is_public", type="integer", enum={0, 1}, example=1),
-    *                       @OA\Property(property="img_path", type="file", description="Imagem do cachorro")
+    *                       @OA\Property(
+    *                           property="name", 
+    *                           type="string", 
+    *                           example="Buddy",
+    *                           description="Defina o nome de seu cachorro."
+    *                       ),
+    *                       @OA\Property(
+    *                           property="breed", 
+    *                           type="string", 
+    *                           example="Golden Retriever",
+    *                           description="Defina a raça de seu cachorro."
+    *                       ),
+    *                       @OA\Property(
+    *                           property="gender", 
+    *                           type="string", 
+    *                           enum={"M", "F"}, 
+    *                           example="M",
+    *                           description="Defina o sexo do cachorro: M para masculino e F para feminino."
+    *                       ),
+    *                       @OA\Property(
+    *                           property="is_public", 
+    *                           type="integer", 
+    *                           enum={0, 1}, 
+    *                           example=1, 
+    *                           description="Defina 1 para tornar o cachorro público e 0 para mantê-lo privado."
+    *                       ),
+    *                       @OA\Property(
+    *                           property="img_path", 
+    *                           type="string", 
+    *                           format="binary", 
+    *                           description="Nova imagem do cachorro"
+    *                       )
     *                   )
     *               )
     *           }
@@ -111,7 +130,7 @@ class DogsController extends Controller
     *   @OA\Get(
     *       path="/api/dogs/current_dog/{id}",
     *       tags={"Cachorros"},
-    *       summary="Obter detalhes de um cachorro específico [requer JWT]",
+    *       summary="Obtem detalhes de um cachorro específico desde que esteja atrelado ao usuário logado [requer JWT].",
     *       @OA\Parameter(
     *           name="id",
     *           in="path",
@@ -156,36 +175,80 @@ class DogsController extends Controller
     }
 
     /**
-    *   @OA\Put(
+    *   @OA\Post(
     *       path="/api/dogs/update/{id}",
     *       tags={"Cachorros"},
-    *       summary="Atualizar informações de um cachorro [requer JWT]",
+    *       summary="Edita informações de seu cachorro. Para isso é necessário informa seu id e preencher os campos do formulário [requer JWT].",
+    *       description="Esta rota aceita um método POST com o campo `_method` definido como PUT para atualizar informações do cachorro.",
     *       @OA\Parameter(
     *           name="id",
     *           in="path",
     *           required=true,
-    *           description="ID do cachorro",
+    *           description="ID do cachorro a ser atualizado",
     *           @OA\Schema(type="integer", example=1)
     *       ),
     *       @OA\RequestBody(
     *           required=true,
-    *           content={
-    *               @OA\MediaType(
-    *                   mediaType="multipart/form-data",
-    *                   @OA\Schema(
-    *                       required={"name", "breed", "gender", "is_public"},
-    *                       @OA\Property(property="name", type="string", example="Buddy"),
-    *                       @OA\Property(property="breed", type="string", example="Golden Retriever"),
-    *                       @OA\Property(property="gender", type="string", enum={"M", "F"}, example="M"),
-    *                       @OA\Property(property="is_public", type="integer", enum={0, 1}, example=1),
-    *                       @OA\Property(property="img_path", type="file", description="Nova imagem do cachorro")
+    *           @OA\MediaType(
+    *               mediaType="multipart/form-data",
+    *               @OA\Schema(
+    *                   required={"_method", "name", "breed", "gender", "is_public"},
+    *                   @OA\Property(
+    *                       property="_method", 
+    *                       type="string", 
+    *                       example="PUT", 
+    *                       description="Informa o método HTTP desejado. Mantenha o valor como PUT para que a atualização seja realizada corretamente."
+    *                   ),
+    *                   @OA\Property(
+    *                       property="name", 
+    *                       type="string", 
+    *                       example="Buddy",
+    *                       description="Defina o nome de seu cachorro."
+    *                   ),
+    *                   @OA\Property(
+    *                       property="breed", 
+    *                       type="string", 
+    *                       example="Golden Retriever",
+    *                       description="Defina a raça de seu cachorro."
+    *                   ),
+    *                   @OA\Property(
+    *                       property="gender", 
+    *                       type="string", 
+    *                       enum={"M", "F"}, 
+    *                       example="M",
+    *                       description="Defina o sexo do cachorro: M para masculino e F para feminino."
+    *                   ),
+    *                   @OA\Property(
+    *                       property="is_public", 
+    *                       type="integer", 
+    *                       enum={0, 1}, 
+    *                       example=1, 
+    *                       description="Defina 1 para tornar o cachorro público e 0 para mantê-lo privado."
+    *                   ),
+    *                   @OA\Property(
+    *                       property="img_path", 
+    *                       type="string", 
+    *                       format="binary", 
+    *                       description="Nova imagem do cachorro"
     *                   )
     *               )
-    *           }
+    *           )
     *       ),
     *       @OA\Response(
     *           response=200,
-    *           description="Cachorro atualizado com sucesso"
+    *           description="Cachorro atualizado com sucesso",
+    *           @OA\JsonContent(
+    *               type="object",
+    *               @OA\Property(property="message", type="string", example="Cachorro atualizado com sucesso")
+    *           )
+    *       ),
+    *       @OA\Response(
+    *           response=400,
+    *           description="Erro nos dados enviados"
+    *       ),
+    *       @OA\Response(
+    *           response=401,
+    *           description="Token JWT inválido ou ausente"
     *       ),
     *       security={{"bearer": {}}}
     *   )
@@ -236,7 +299,7 @@ class DogsController extends Controller
     *   @OA\Delete(
     *       path="/api/dogs/delete/{id}",
     *       tags={"Cachorros"},
-    *       summary="Excluir um cachorro [requer JWT]",
+    *       summary="Exclui seu cachorro do banco dados, basta informa seu id [requer JWT].",
     *       @OA\Parameter(
     *           name="id",
     *           in="path",
@@ -280,7 +343,7 @@ class DogsController extends Controller
     *   @OA\Put(
     *       path="/api/dogs/delete_image/{id}",
     *       tags={"Cachorros"},
-    *       summary="Excluir a imagem de um cachorro [requer JWT]",
+    *       summary="Apaga a imagem de seu cachorro, basta informar seu id [requer JWT].",
     *       @OA\Parameter(
     *           name="id",
     *           in="path",

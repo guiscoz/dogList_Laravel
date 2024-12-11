@@ -11,7 +11,7 @@
                 "tags": [
                     "Autenticação"
                 ],
-                "summary": "Registrar um novo usuário",
+                "summary": "Faz o cadastro de seu usuário, basta informa seu nome, email e senha.",
                 "operationId": "8a56853624e025573120a09a4c75d468",
                 "requestBody": {
                     "required": true,
@@ -57,7 +57,7 @@
                 "tags": [
                     "Autenticação"
                 ],
-                "summary": "Fazer login de um usuário",
+                "summary": "Faz login de seu usuário, basta escrever seu email e senha",
                 "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
                 "requestBody": {
                     "required": true,
@@ -98,7 +98,7 @@
                 "tags": [
                     "Autenticação"
                 ],
-                "summary": "Obter informações do usuário logado",
+                "summary": "Obtem dados dos usuário logado [requer JWT].",
                 "operationId": "2d804e6dc8f3ba8ea6ce9d4c80b704d2",
                 "responses": {
                     "200": {
@@ -117,7 +117,7 @@
                 "tags": [
                     "Autenticação"
                 ],
-                "summary": "Fazer logout do usuário logado",
+                "summary": "Faz logout do usuário logado [requer JWT].",
                 "operationId": "3f19b742e4ead13f81ba0d6c0d46ac1b",
                 "responses": {
                     "200": {
@@ -136,7 +136,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Listar todos os cachorros públicos",
+                "summary": "Lista todos os cachorros públicos",
                 "operationId": "4c5da6ed14f9a838b396b75a2c10e09b",
                 "responses": {
                     "200": {
@@ -150,7 +150,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Adicionar um novo cachorro [requer JWT]",
+                "summary": "Adiciona um novo cachorro no banco de dados [requer JWT].",
                 "operationId": "f7369c128c2be35a8f9cc293310712da",
                 "requestBody": {
                     "required": true,
@@ -165,14 +165,17 @@
                                 ],
                                 "properties": {
                                     "name": {
+                                        "description": "Defina o nome de seu cachorro.",
                                         "type": "string",
-                                        "example": "Lupi"
+                                        "example": "Buddy"
                                     },
                                     "breed": {
+                                        "description": "Defina a raça de seu cachorro.",
                                         "type": "string",
                                         "example": "Golden Retriever"
                                     },
                                     "gender": {
+                                        "description": "Defina o sexo do cachorro: M para masculino e F para feminino.",
                                         "type": "string",
                                         "enum": [
                                             "M",
@@ -181,6 +184,7 @@
                                         "example": "M"
                                     },
                                     "is_public": {
+                                        "description": "Defina 1 para tornar o cachorro público e 0 para mantê-lo privado.",
                                         "type": "integer",
                                         "enum": [
                                             0,
@@ -189,8 +193,9 @@
                                         "example": 1
                                     },
                                     "img_path": {
-                                        "description": "Imagem do cachorro",
-                                        "type": "file"
+                                        "description": "Nova imagem do cachorro",
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -215,7 +220,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Obter detalhes de um cachorro específico [requer JWT]",
+                "summary": "Obtem detalhes de um cachorro específico desde que esteja atrelado ao usuário logado [requer JWT].",
                 "operationId": "2fef374324c47c9385175b6d83dfc572",
                 "parameters": [
                     {
@@ -285,17 +290,18 @@
             }
         },
         "/api/dogs/update/{id}": {
-            "put": {
+            "post": {
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Atualizar informações de um cachorro [requer JWT]",
-                "operationId": "9306c8f624f9d8e5b47eb5481a1966f8",
+                "summary": "Edita informações de seu cachorro. Para isso é necessário informa seu id e preencher os campos do formulário [requer JWT].",
+                "description": "Esta rota aceita um método POST com o campo `_method` definido como PUT para atualizar informações do cachorro.",
+                "operationId": "9bb7611491878d42fe4b03cebd076ea7",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID do cachorro",
+                        "description": "ID do cachorro a ser atualizado",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -309,21 +315,30 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
+                                    "_method",
                                     "name",
                                     "breed",
                                     "gender",
                                     "is_public"
                                 ],
                                 "properties": {
+                                    "_method": {
+                                        "description": "Informa o método HTTP desejado. Mantenha o valor como PUT para que a atualização seja realizada corretamente.",
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
                                     "name": {
+                                        "description": "Defina o nome de seu cachorro.",
                                         "type": "string",
                                         "example": "Buddy"
                                     },
                                     "breed": {
+                                        "description": "Defina a raça de seu cachorro.",
                                         "type": "string",
                                         "example": "Golden Retriever"
                                     },
                                     "gender": {
+                                        "description": "Defina o sexo do cachorro: M para masculino e F para feminino.",
                                         "type": "string",
                                         "enum": [
                                             "M",
@@ -332,6 +347,7 @@
                                         "example": "M"
                                     },
                                     "is_public": {
+                                        "description": "Defina 1 para tornar o cachorro público e 0 para mantê-lo privado.",
                                         "type": "integer",
                                         "enum": [
                                             0,
@@ -341,7 +357,8 @@
                                     },
                                     "img_path": {
                                         "description": "Nova imagem do cachorro",
-                                        "type": "file"
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -351,7 +368,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Cachorro atualizado com sucesso"
+                        "description": "Cachorro atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cachorro atualizado com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro nos dados enviados"
+                    },
+                    "401": {
+                        "description": "Token JWT inválido ou ausente"
                     }
                 },
                 "security": [
@@ -366,7 +402,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Excluir um cachorro [requer JWT]",
+                "summary": "Exclui seu cachorro do banco dados, basta informa seu id [requer JWT].",
                 "operationId": "736db1e592a9acae7673ad9f3f2b11d3",
                 "parameters": [
                     {
@@ -403,7 +439,7 @@
                 "tags": [
                     "Cachorros"
                 ],
-                "summary": "Excluir a imagem de um cachorro [requer JWT]",
+                "summary": "Apaga a imagem de seu cachorro, basta informar seu id [requer JWT].",
                 "operationId": "d7aed838f6c2fb54ec9c60b8197b767b",
                 "parameters": [
                     {
@@ -449,7 +485,7 @@
     "tags": [
         {
             "name": "Autenticação",
-            "description": "Gerenciamento de usuários"
+            "description": "Aqui você seu cadastro, login, logout e carrega dados de seu perfil"
         },
         {
             "name": "Cachorros",
