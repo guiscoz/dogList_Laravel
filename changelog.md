@@ -65,3 +65,7 @@ Agora é possível testar os métodos que requerem um JWT e também da para envi
 ## 11/12/2024
 
 Todos os métodos dos controllers estão funcionando. Depois foi criado o arquivo SwaggerConfig para armazenar as anotações @OA\Info e @OA\SecurityScheme porque elas são globais, ou seja, serão usadas em ambos os controllers. Por fim, houve alterações na descrição dos métodos para orientar melhor o usuário.
+
+## 12/12/2024
+
+Merge da branch swagger com a main.
