@@ -16,9 +16,21 @@ class Cors
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request)
-            ->header("Access-Control-Allow-Origin", "*")
-            ->header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
-            ->header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        $allowedOrigins = [
+            'http://localhost:8081', // Domínio de desenvolvimento
+            // Aqui será adicionado um domínio de produção caso necessário
+        ];
+
+        $origin = $request->header('Origin');
+
+        if (in_array($origin, $allowedOrigins)) {
+            return $next($request)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+                ->header('Access-Control-Allow-Credentials', 'true'); 
+        }
+
+        return $next($request);
     }
 }

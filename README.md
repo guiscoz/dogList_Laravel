@@ -28,7 +28,7 @@ Por fim, para rodar o projeto, utilize este comando: php artisan serve
 # Rotas disponíveis
 
 
-Aqui será listado todas as rotas contendo as funções de requisição de api do projeto, contendo sua url e os campos a serem preenchidos. Nota que a base da url é "http://localhost:8080/", mas isso é porque o projeto está sendo executado com o comando "php artisan serve". Caso você for testar o projeto com o Laragon ou de alguma outra a forma, a base da url pode ser diferente.
+Aqui será listado todas as rotas contendo as funções de requisição de api do projeto, contendo sua url e os campos a serem preenchidos. Nota que a base da url é "http://localhost:8080/", mas isso é porque o projeto está sendo executado com o comando "php artisan serve". Para testar o projeto com o Laragon ou de alguma outra a forma, a base da url pode ser diferente.
 
 
 ## Autenticação:
@@ -86,6 +86,12 @@ Essas rotas não precisam de formulário:
 [PUT - requer JWT] http://127.0.0.1:8000/api/dogs/delete_image/{id}
 [GET - não precisa de JWT] http://127.0.0.1:8000/api/dogs
 ```
+
+
+### Integração com o frontend
+
+
+Caso você quiser usar o parte de frontend criada no view, o domínio padrão é 'http://localhost:8081' e se por algum motivo suas requisições de API não estiver funcionando, será necessário mexer no arquivo 'Cors.php' na pasta de middlewares. Lá tem um array chamado 'allowedOrigins' com os domínios permitido.
 
 
 # Testes automatizados
