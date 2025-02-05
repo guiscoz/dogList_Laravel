@@ -81,3 +81,11 @@ Merge da branch swagger com a main.
 ### 17/12
 
 Houve alterações no arquivo de Cors para permitir que somente requisições vindo do domínio de desenvolvimento fossem permitidas. Este arquivo também sofreu mudanças por questão de organização, deixando claro em qual ano foi iniciado e qual passou a ter ajustes. Além disso, foi criado um middleware chamado 'VerifyDogOwner' que servirá para comparar o valor de user_id do cachorro com o id do usuário autenticado, tirando a necessidade de fazer esta verificação diretamente no DogController. Isso será útil nas rotas com o parametro 'id' que evitará o acesso à cachorros de outros usuários. Por fim, teve a adição no arquivo 'README.md' para informar sobre o domínio permitido pelo Cors.
+
+## 2025
+
+Neste ano também foi dedicado para fazer mais ajustes e além disso, adicionar novas features.
+
+### 05/02
+
+Devido a vulnerabilidades encontradas no pacote nesbot/carbon e league/commonmark, eles tiveram que ser atualizados. O pacote fruitcake/laravel-cors foi removido do projeto por não estar sendo utilizado. Por fim, foi criado um arquivo de docke-compose com o Sail para gerar um ambiente Docker.

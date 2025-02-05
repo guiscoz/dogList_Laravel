@@ -105,7 +105,6 @@ Cadastro de cães:   php artisan test tests/Feature/DogsControllerFeatureTest.ph
 ```
 
 
-
 # Swagger
 
 O Swagger é um recurso que documenta e auxilia nos testes da API, possibilitando testar manuamente cada rota em uma única página. Foi instaldo o pacote l5-swagger para isso e sua URL será definida pela variável L5_SWAGGER_CONST_HOST do arquivo '.env':
@@ -116,3 +115,34 @@ O Swagger é um recurso que documenta e auxilia nos testes da API, possibilitand
 # L5_SWAGGER_CONST_HOST=http://127.0.0.1:8000
 ``` 
 Depois basta digitar 'api/documentation' no final da URL para acessar o Swagger.
+
+# Docker
+
+Caso você tenha apenas o Docker instalado na sua máquina, isso é o suficiente para executar o projeto. Basta executar os seguintes comandos no terminal:
+
+
+Construção de ambiente que irá gerar dois containers. Um para o laravel e outro do mysql.
+```
+docker-compose build
+```
+
+
+Subir os containers.
+```
+docker-compose up -d
+```
+
+
+Em seguida você deve rodar as migrations e o seeder:
+```
+docker-compose exec doglist php artisan migrate --seed
+```
+
+
+Graças ao uso do Sail deste framework, não há necessidade de um comando para a execução do projeto porque suas páginas já estarão disponíveis no localhost (http://localhost:8000/) assim que os containers forem ativados. Quando quiser rodar novamente com as migrations instaladas, pode usar somente o 'docker-composer up' sem o '-d' no final. Mas para isso acontecer será necessário definir essas variáveis de ambiente no arquivo '.env':
+```
+APP_PORT=porta_laravel
+FORWARD_DB_PORT=porta_mysql
+WWWGROUP=1000_ou_id_grupo_host
+WWWUSER=1000_ou_id_usuario_local
+```
